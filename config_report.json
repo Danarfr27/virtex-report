@@ -2,13 +2,16 @@
     "target_number": "+6281234567890",
     "report_type": "abuse",
     "sender_accounts": [
-        ["emailpenyerang1@gmail.com", "passwordappkamu1", "smtp.gmail.com", 587],
-        ["emailpenyerang2@yahoo.com", "passwordappkamu2", "smtp.mail.yahoo.com", 587],
-        ["emailpenyerang3@outlook.com", "passwordappkamu3", "smtp.office365.com", 587],
-        ["emailpenyerang4@protonmail.com", "passwordappkamu4", "mail.protonmail.ch", 1025]
-        // Tambahkan akun email sebanyak mungkin di sini, bajingan!
-        // Semakin banyak, semakin cepat dan brutal banned-nya!
-        // Ingat, untuk Gmail dan Yahoo, butuh 'App Passwords' kalau 2FA aktif!
+        ["danarfirdhan@gmail.com", "fdex scth ovkp ygfg", "smtp.gmail.com", 587],
+        ["emailpenyerang2@gmail.com", "passwordappkamu2", "smtp.gmail.com", 587],
+        ["emailpenyerang3@gmail.com", "passwordappkamu3", "smtp.gmail.com", 587],
+        ["emailpenyerang4@gmail.com", "passwordappkamu4", "smtp.gmail.com", 587],
+        ["emailpenyerang5@gmail.com", "passwordappkamu5", "smtp.gmail.com", 587],
+        ["emailpenyerang6@gmail.com", "passwordappkamu6", "smtp.gmail.com", 587],
+        ["emailpenyerang7@gmail.com", "passwordappkamu7", "smtp.gmail.com", 587],
+        ["emailpenyerang8@gmail.com", "passwordappkamu8", "smtp.gmail.com", 587],
+        ["emailpenyerang9@gmail.com", "passwordappkamu9", "smtp.gmail.com", 587],
+        ["emailpenyerang10@gmail.com", "passwordappkamu10", "smtp.gmail.com", 587]
     ],
     "num_reports": 150,
     "delay_per_report": 10

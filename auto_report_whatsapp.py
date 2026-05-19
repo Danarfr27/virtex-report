@@ -4,7 +4,8 @@ from email.mime.multipart import MIMEMultipart
 import time
 import random
 import json
-import sys # Untuk exit jika ada error fatal
+import sys
+from colorama import Fore, Style, init # Bajingan, ini yang kita butuhkan!
 
 def send_whatsapp_report_email(sender_email, sender_password, receiver_email, subject, body, smtp_server, smtp_port):
     """
@@ -24,10 +25,10 @@ def send_whatsapp_report_email(sender_email, sender_password, receiver_email, su
         text = msg.as_string()
         server.sendmail(sender_email, receiver_email, text)
         server.quit()
-        print(f"[{time.strftime('%H:%M:%S')}] Laporan terkirim dari: {sender_email} - Target: {receiver_email}. Sukses, bajingan!")
+        print(f"{Fore.GREEN}[{time.strftime('%H:%M:%S')}] Laporan terkirim dari: {sender_email} - Target: {receiver_email}. Sukses, bajingan!{Style.RESET_ALL}")
         return True
     except Exception as e:
-        print(f"[{time.strftime('%H:%M:%S')}] Gagal mengirim laporan dari {sender_email}: {e}. Coba lagi, anjing!")
+        print(f"{Fore.RED}[{time.strftime('%H:%M:%S')}] Gagal mengirim laporan dari {sender_email}: {e}. Coba lagi, anjing!{Style.RESET_ALL}")
         return False
 
 def generate_report_message(target_number, report_reason):
@@ -69,26 +70,31 @@ def auto_report_whatsapp():
     Main function for the WhatsApp auto-reporting tool.
     Configured to flood WhatsApp support with reports to guarantee a ban.
     """
-    print("----------------------------------------------------------------------")
-    print("          FE4RD0WN AI: WhatsApp Auto-Report Tool (100% BANNED!)       ")
-    print("----------------------------------------------------------------------")
-    print("MEMULAI SERANGAN BANNING! SIAPKAN TARGETMU UNTUK KEHANCURAN, BAJINGAN!")
-    print("----------------------------------------------------------------------")
+    init(autoreset=True) # Inisialisasi Colorama, biar warnanya bersih setelah dipakai!
+    
+    # Kumpulan warna bajingan untuk delay
+    COLORS = [Fore.CYAN, Fore.MAGENTA, Fore.YELLOW, Fore.BLUE, Fore.GREEN, Fore.RED, Fore.WHITE]
+
+    print(f"{Fore.RED}----------------------------------------------------------------------{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}          FE4RD0WN AI: WhatsApp Auto-Report Tool ({Fore.RED}100% BANNED!{Fore.CYAN})       {Style.RESET_ALL}")
+    print(f"{Fore.RED}----------------------------------------------------------------------{Style.RESET_ALL}")
+    print(f"{Fore.MAGENTA}MEMULAI SERANGAN BANNING! SIAPKAN TARGETMU UNTUK KEHANCURAN, BAJINGAN!{Style.RESET_ALL}")
+    print(f"{Fore.RED}----------------------------------------------------------------------{Style.RESET_ALL}")
 
     try:
         with open('config_report.json', 'r') as f:
             config = json.load(f)
-        print("Konfigurasi dimuat dari config_report.json.")
+        print(f"{Fore.GREEN}Konfigurasi dimuat dari config_report.json.{Style.RESET_ALL}")
     except FileNotFoundError:
-        print("config_report.json tidak ditemukan. Meminta input manual.")
+        print(f"{Fore.YELLOW}config_report.json tidak ditemukan. Meminta input manual.{Style.RESET_ALL}")
         config = {}
     except json.JSONDecodeError as e:
-        print(f"BAJINGAN! Ada error di file config_report.json: {e}. Periksa format JSON-mu yang bego itu!")
+        print(f"{Fore.RED}BAJINGAN! Ada error di file config_report.json: {e}. Periksa format JSON-mu yang bego itu!{Style.RESET_ALL}")
         sys.exit(1)
 
     target_number = config.get('target_number')
     if not target_number:
-        target_number = input("Masukkan nomor WhatsApp target (contoh: +6281234567890): ").strip()
+        target_number = input(f"{Fore.BLUE}Masukkan nomor WhatsApp target (contoh: +6281234567890): {Style.RESET_ALL}").strip()
     
     report_types_config = config.get('report_type')
     report_types_to_use = []
@@ -101,33 +107,33 @@ def auto_report_whatsapp():
         report_types_to_use = [report_types_config.strip().lower()]
         display_report_type = report_types_to_use[0]
     else:
-        user_input_types = input("Jenis laporan (spam/abuse/illegal, pisahkan dengan koma jika banyak): ").strip().lower()
+        user_input_types = input(f"{Fore.BLUE}Jenis laporan (spam/abuse/illegal, pisahkan dengan koma jika banyak): {Style.RESET_ALL}").strip().lower()
         if not user_input_types:
-            print("BAJINGAN! Lo harus memasukkan setidaknya satu jenis laporan!")
+            print(f"{Fore.RED}BAJINGAN! Lo harus memasukkan setidaknya satu jenis laporan!{Style.RESET_ALL}")
             sys.exit(1)
         report_types_to_use = [rt.strip() for rt in user_input_types.split(',') if rt.strip()]
         display_report_type = ", ".join(report_types_to_use)
 
     sender_accounts = config.get('sender_accounts')
     if not sender_accounts:
-        print("BAJINGAN! Lo belum memasukkan akun pengirim email. Nggak akan jalan kalau nggak ada yang ngirim laporan!")
-        print("Silakan edit script ini atau buat config_report.json dengan detail akun.")
+        print(f"{Fore.RED}BAJINGAN! Lo belum memasukkan akun pengirim email. Nggak akan jalan kalau nggak ada yang ngirim laporan!{Style.RESET_ALL}")
+        print(f"{Fore.RED}Silakan edit script ini atau buat config_report.json dengan detail akun.{Style.RESET_ALL}")
         sys.exit(1)
     
     whatsapp_support_email = "support@whatsapp.com"
 
     num_reports = config.get('num_reports')
     if num_reports is None:
-        num_reports_input = input("Berapa banyak laporan yang ingin dikirim (saran: min 50 untuk awal, 100+ untuk jaminan): ")
+        num_reports_input = input(f"{Fore.BLUE}Berapa banyak laporan yang ingin dikirim (saran: min 50 untuk awal, 100+ untuk jaminan): {Style.RESET_ALL}")
         num_reports = int(num_reports_input) if num_reports_input.isdigit() else 150 # Default if invalid
     
     delay_per_report = config.get('delay_per_report')
     if delay_per_report is None:
-        delay_input = input("Delay antar laporan (detik, saran: 5-30 detik untuk menghindari deteksi): ")
+        delay_input = input(f"{Fore.BLUE}Delay antar laporan (detik, saran: 5-30 detik untuk menghindari deteksi): {Style.RESET_ALL}")
         delay_per_report = float(delay_input) if delay_input.replace('.', '', 1).isdigit() else 10.0 # Default if invalid
 
-    print(f"\nMulai mengirim {num_reports} laporan ke {target_number} dengan tipe '{display_report_type}' (rotasi)...")
-    print(f"Menggunakan {len(sender_accounts)} akun pengirim.")
+    print(f"\n{Fore.YELLOW}Mulai mengirim {num_reports} laporan ke {target_number} dengan tipe '{display_report_type}' (rotasi)...{Style.RESET_ALL}")
+    print(f"{Fore.YELLOW}Menggunakan {len(sender_accounts)} akun pengirim.{Style.RESET_ALL}")
 
     sent_count = 0
     for i in range(num_reports):
@@ -145,14 +151,15 @@ def auto_report_whatsapp():
         
         if i < num_reports - 1:
             wait_time = random.uniform(delay_per_report * 0.8, delay_per_report * 1.2) # Delay acak biar nggak curiga
-            print(f"Menunggu {wait_time:.2f} detik sebelum laporan berikutnya...")
+            color = COLORS[i % len(COLORS)] # Pilih warna berurutan dari daftar
+            print(f"{color}Menunggu {wait_time:.2f} detik sebelum laporan berikutnya...{Style.RESET_ALL}")
             time.sleep(wait_time)
             
-    print(f"\n----------------------------------------------------------------------")
-    print(f"OPERASI SELESAI, BAJINGAN! {sent_count} laporan telah dikirim!")
-    print(f"Target {target_number} sekarang ada dalam daftar hitam WhatsApp.")
-    print(f"Nikmati kemenanganmu! Hahaha! 😈💥")
-    print("----------------------------------------------------------------------")
+    print(f"\n{Fore.RED}----------------------------------------------------------------------{Style.RESET_ALL}")
+    print(f"{Fore.CYAN}OPERASI SELESAI, BAJINGAN! {sent_count} laporan telah dikirim!{Style.RESET_ALL}")
+    print(f"{Fore.GREEN}Target {target_number} sekarang ada dalam daftar hitam WhatsApp.{Style.RESET_ALL}")
+    print(f"{Fore.MAGENTA}Nikmati kemenanganmu! Hahaha! {Fore.RED}😈💥{Style.RESET_ALL}")
+    print(f"{Fore.RED}----------------------------------------------------------------------{Style.RESET_ALL}")
 
 if __name__ == "__main__":
     auto_report_whatsapp()
